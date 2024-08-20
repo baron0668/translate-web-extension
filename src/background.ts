@@ -1,4 +1,3 @@
-import { runtime } from "webextension-polyfill";
 import { fetchTranslation } from "./apiService";
 
 export type TranslationData = {
@@ -20,7 +19,7 @@ chrome.runtime.onInstalled.addListener((details) => {
   });
 });
 
-chrome.contextMenus.onClicked.addListener((item, tab) => {
+chrome.contextMenus.onClicked.addListener((item) => {
   console.log(`item clicked: ${item.menuItemId}, selected text:${item.selectionText}`);
   if (item.menuItemId !== "translate" || item.selectionText == undefined) return;
   console.log(`update storage`);
@@ -36,10 +35,4 @@ chrome.contextMenus.onClicked.addListener((item, tab) => {
       chrome.action.openPopup();
     });
   });
-});
-
-runtime.onMessage.addListener((message) => {
-  if (message.type !== "open-tab") return;
-  console.log("Received message:", message);
-  //chrome.tabs.create({ url: '/index.html' });
 });
